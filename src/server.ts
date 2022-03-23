@@ -4,6 +4,8 @@ import express from 'express'
 import dotenv from 'dotenv'
 import morgan from "morgan";
 import authRoutes from './routes/auth'
+import postRoutes from './routes/posts'
+// import subRoutes from './routes/subs'
 import trim from "./middleware/trim";
 import cookieParser from 'cookie-parser';
 dotenv.config()
@@ -13,6 +15,8 @@ app.use(morgan('dev'))
 app.use(trim);
 app.use(cookieParser());
 app.use('/api/auth',authRoutes)
+app.use('/api/posts',postRoutes)
+// app.use('/api/subs',subRoutes)
 app.get('/',(req,res)=>{
     res.send("Hello World");
 })
