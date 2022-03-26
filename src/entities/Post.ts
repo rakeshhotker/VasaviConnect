@@ -1,9 +1,10 @@
-import {Entity as TOEntity, Column, Index, BeforeInsert, ManyToOne, JoinColumn} from "typeorm";
+import {Entity as TOEntity, Column, Index, BeforeInsert, ManyToOne, JoinColumn, OneToMany} from "typeorm";
 import { makeId } from "../utils/helpers";
 import Entity from "./Entity";
 import User from "./User";
 import {slugify} from '../utils/helpers';
 import Sub from "./Sub";
+import Comment from "./Comment";
 @TOEntity('posts')
 export default class Post extends Entity{
     constructor(post:Partial<Post>){
@@ -26,14 +27,17 @@ export default class Post extends Entity{
     @Column()
     subName:string
 
-    @ManyToOne(()=>User,user=>user.posts)
+    @ManyToOne(()=>User,(user)=>user.posts)
     @JoinColumn({name:'username',referencedColumnName:'username'})
     user:User
 
-    @ManyToOne(()=>Sub,sub=>sub.posts)
+    @ManyToOne(()=>Sub,(sub)=>sub.posts)
     @JoinColumn({name:'subName',referencedColumnName:'name'})
     sub:Sub
 
+    @OneToMany(()=>Comment,comment=>comment.post)
+    comments:Comment[]
+    
     @BeforeInsert()
     makeIdAndSlug(){
         this.identifier=makeId(7);

@@ -7,10 +7,10 @@ export default abstract class Entity extends BaseEntity{
     id: number;
 
     @CreateDateColumn()
-    createAt:Date
+    createdAt:Date
 
     @CreateDateColumn()
-    updateAt:Date
+    updatedAt:Date
 
     toJSON(){
         return instanceToPlain(this)

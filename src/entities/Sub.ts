@@ -1,8 +1,6 @@
-import {Entity as TOEntity, Column, Index, BeforeInsert, ManyToOne, JoinColumn, OneToMany} from "typeorm";
-import { makeId } from "../utils/helpers";
+import {Entity as TOEntity, Column, Index, ManyToOne, JoinColumn, OneToMany} from "typeorm";
 import Entity from "./Entity";
 import User from "./User";
-import {slugify} from '../utils/helpers';
 import Post from "./Post";
 @TOEntity('subs')
 export default class Sub extends Entity{
@@ -20,6 +18,7 @@ export default class Sub extends Entity{
 
     @Column({type:'text',nullable:true})
     description:string
+
 
     @Column({nullable:true})
     imageUrn:string

@@ -60,7 +60,8 @@ const login=async(req:Request,res:Response)=>{
         }))
         return res.json({user,token})
     } catch (error) {
-        
+        console.log(error);
+        return res.json({error:'Something went wrong'})
     }
 }
 //authenticate
