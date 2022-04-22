@@ -5,13 +5,15 @@ import Sub from "../entities/Sub";
 import auth from '../middleware/auth'
 const createPost = async (req:Request,res:Response) => {
     const {title,body,sub} = req.body;
+    const likes=0;
+    const dislikes=0;
     const user=res.locals.user;
     if(title.trim()===''){
         return res.status(400).json({title:'Title must not be empty'})
     }
     try {
         const subRecord=await Sub.findOneOrFail({name:sub})//finding sub
-        const post=new Post({title,body,user,sub:subRecord});
+        const post=new Post({title,body,user,sub:subRecord,likes,dislikes});
         await post.save()
         return res.json(post);
     } catch (error) {
@@ -57,9 +59,35 @@ const commentOnPost=async(req:Request,res:Response)=>{
         return res.status(404).json({error:'Post not found'})
     }
 }
+const likePost=async(req:Request,res:Response)=>{
+    const {identifier,slug}=req.params
+    try {
+        const post=await Post.findOneOrFail({identifier,slug})
+        post.likes++;
+        await Post.save(post)
+        return res.json(post)
+    } catch (error) {
+        console.log(error);
+        return res.status(404).json({error:'Post not found'})
+    }
+}
+const dislikePost=async(req:Request,res:Response)=>{
+    const {identifier,slug}=req.params
+    try {
+        const post=await Post.findOneOrFail({identifier,slug})
+        post.likes--;
+        await Post.save(post)
+        return res.json(post)
+    } catch (error) {
+        console.log(error);
+        return res.status(404).json({error:'Post not found'})
+    }
+}
 const router=Router()
 router.post('/',auth,createPost)
 router.get('/',getPosts);
 router.get('/:identifier/:slug',auth,getPost)
 router.post('/:identifier/:slug/comments',auth,commentOnPost)
+router.post('/:identifier/:slug/like',auth,likePost)
+router.post('/:identifier/:slug/dislike',auth,dislikePost);
 export default router

@@ -27,6 +27,11 @@ export default class Post extends Entity{
     @Column()
     subName:string
 
+    @Column({nullable:true,type:'integer'})
+    likes:number
+
+    @Column({nullable:true,type:'integer'})
+    dislikes:number
     @ManyToOne(()=>User,(user)=>user.posts)
     @JoinColumn({name:'username',referencedColumnName:'username'})
     user:User
