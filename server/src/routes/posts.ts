@@ -75,7 +75,7 @@ const dislikePost=async(req:Request,res:Response)=>{
     const {identifier,slug}=req.params
     try {
         const post=await Post.findOneOrFail({identifier,slug})
-        post.likes--;
+        post.dislikes++;
         await Post.save(post)
         return res.json(post)
     } catch (error) {
