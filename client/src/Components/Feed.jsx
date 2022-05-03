@@ -15,17 +15,17 @@ function Feed() {
       console.log("posts", posts);
     };
     fetchData();
-  },[]);
-  async function handleLike(identifier,slug)
-  {
-    console.log("like")
-    const res=await BackendCaller.post(`/posts/${identifier}/${slug}/like`)
+  }, []);
+  async function handleLike(identifier, slug) {
+    console.log("like");
+    const res = await BackendCaller.post(`/posts/${identifier}/${slug}/like`);
     console.log(res);
   }
-  async function handleDislike(identifier,slug)
-  {
-    console.log("dislike")
-    const res=await BackendCaller.post(`/posts/${identifier}/${slug}/dislike`)
+  async function handleDislike(identifier, slug) {
+    console.log("dislike");
+    const res = await BackendCaller.post(
+      `/posts/${identifier}/${slug}/dislike`
+    );
     console.log(res);
   }
   return (
@@ -36,7 +36,9 @@ function Feed() {
             <div className="w-full pt-4 text-[#fff] border-b py-8 my-2 rounded-md">
               <div className="flex justify-between">
                 <h3 className="font-bold">{post.title}</h3>
-                <span className="font-bold">Posted by:&nbsp;{post.username}</span>
+                <span className="font-bold">
+                  Posted by:&nbsp;{post.username}
+                </span>
                 <span className="font-bold">Category:&nbsp;{post.subName}</span>
               </div>
               <div className="">
@@ -45,14 +47,26 @@ function Feed() {
               <div className="flex justify-between mt-2">
                 <div className="flex justify-between w-40">
                   <div className="w-20 py-1 mr-4 leading-5 rounded-full blue button">
-                    <button onClick={(e)=>handleLike(post.identifier,post.slug)}><span className="font-bold">likes:{post.likes}</span></button>
+                    <button
+                      onClick={(e) => handleLike(post.identifier, post.slug)}
+                    >
+                      <span className="font-bold">likes:{post.likes}</span>
+                    </button>
                   </div>
                   <div className="w-20 py-1 mr-4 leading-5 rounded-full blue button">
-                    <button onClick={(e)=>handleDislike(post.identifier,post.slug)}><span className="font-bold">dislikes:{post.dislikes}</span></button>
+                    <button
+                      onClick={(e) => handleDislike(post.identifier, post.slug)}
+                    >
+                      <span className="font-bold">
+                        dislikes:{post.dislikes}
+                      </span>
+                    </button>
                   </div>
                 </div>
                 <div className="font-bold">{post.slug}</div>
-                <div className="w-32 py-1 mr-4 leading-5 hollow blue button">comments</div>
+                <div className="w-32 py-1 mr-4 leading-5 hollow blue button">
+                  comments
+                </div>
               </div>
             </div>
           );

@@ -24,17 +24,10 @@ function Navbar({
     console.log(slug);
     e.preventDefault();
     try {
-      const res = await BackendCaller.get(
-        "/posts/search",
-        {
-          slug: slug,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await BackendCaller.get(`posts/${slug}/search`);
       setSearchResult(res);
       console.log(res);
+      setQuery("");
     } catch (error) {
       console.log(error);
     }

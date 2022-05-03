@@ -32,7 +32,7 @@ const getPosts=async (_:Request,res:Response)=>{
     }
 }
 const getPost=async(req:Request,res:Response)=>{
-    const slug=req.body
+    const {slug}=req.params;
     console.log(slug)
     try {
         const post=await Post.findOneOrFail({slug},{relations:['sub']})
@@ -86,8 +86,8 @@ const dislikePost=async(req:Request,res:Response)=>{
 const router=Router()
 router.post('/',auth,createPost)
 router.get('/',getPosts);
-router.get('/search',getPost)
+router.get('/:slug/search',getPost)
 router.post('/:identifier/:slug/comments',auth,commentOnPost)
-router.post('/:identifier/:slug/like',auth,likePost)
-router.post('/:identifier/:slug/dislike',auth,dislikePost);
+router.post('/:identifier/:slug/like',likePost)
+router.post('/:identifier/:slug/dislike',dislikePost);
 export default router

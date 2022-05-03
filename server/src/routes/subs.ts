@@ -33,6 +33,7 @@ const createSub=async(req:Request,res:Response)=>{
         return res.status(500).json({error:'Something went wrong'})
     }
 }
+
 const router=Router()
 router.post('/',auth,createSub)
 export default router

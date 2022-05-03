@@ -2,9 +2,9 @@
    "type": "postgres",
    "host": "localhost",
    "port": 5432,
-   "username": "postgres",
+   "username": "rakesh",
    "password": "admin",
-   "database": "vasaviconnect",
+   "database": "discussionforum",
    "synchronize": true,
    "logging": true,
    "entities": [
