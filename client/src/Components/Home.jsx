@@ -16,7 +16,7 @@ function Home() {
         <Sidebar />
         <div className="flex flex-col items-center justify-around w-3/5 h-full pl-10 border-l-2">
           <PostBox />
-          <div className="w-full overflow-y-scroll">
+          <div className="w-full py-3">
             <Feed />
           </div>
         </div>

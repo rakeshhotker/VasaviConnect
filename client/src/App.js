@@ -5,6 +5,7 @@ import Navbar from "./Components/Navbar";
 function App() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [authenticate, setisAuthenticate] = useState(false);
+  const [user,setUser]=useState("")
   return (
     <>
       <Navbar
@@ -14,7 +15,8 @@ function App() {
         setisAuthenticate={setisAuthenticate}
       />
       {!isLoggedIn && authenticate && (
-        <Auth setisLoggedIn={setisLoggedIn} isLoggedIn={isLoggedIn} />
+        <Auth setisLoggedIn={setisLoggedIn} isLoggedIn={isLoggedIn}  user={user}
+        setUser={setUser} />
       )}
       {isLoggedIn && <Home />}
     </>
