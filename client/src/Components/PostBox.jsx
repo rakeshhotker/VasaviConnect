@@ -13,7 +13,7 @@ function PostBox() {
         "/posts",
         {
           title,
-          post,
+          body: post,
           sub,
         },
         { withCredentials: true }
