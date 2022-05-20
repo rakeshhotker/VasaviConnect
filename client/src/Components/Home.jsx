@@ -4,12 +4,12 @@ import PostBox from "./PostBox";
 import Sidebar from "./Sidebar";
 import Feed from "./Feed";
 function Home() {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    BackendCaller.get("/posts")
-      .then((res) => setPosts(res.data))
-      .catch((err) => console.log(err));
-  }, []);
+  // const [posts, setPosts] = useState([]);
+  // useEffect(() => {
+  //   BackendCaller.get("/posts")
+  //     .then((res) => setPosts(res.data))
+  //     .catch((err) => console.log(err));
+  // }, []);
   return (
     <>
       <div className="flex mt-20">

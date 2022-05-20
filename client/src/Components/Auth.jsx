@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BackendCaller from "../Api/BackendCaller";
 import "./auth.css";
-function Auth({ isLoggedIn, setisLoggedIn }) {
+function Auth({ isLoggedIn, setisLoggedIn, user, setUser }) {
   const [wantToLogin, setwantToLogin] = useState();
   return (
     <>

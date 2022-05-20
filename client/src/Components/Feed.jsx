@@ -7,26 +7,26 @@ function Feed() {
     const fetchData = async () => {
       try {
         const data = await BackendCaller.get("/posts");
-        console.log(data.data);
+        // console.log(data.data);
         setPosts(data.data);
       } catch (error) {
         console.log(error.message);
       }
-      console.log("posts", posts);
+      // console.log("posts", posts);
     };
     fetchData();
-  }, []);
+  }, [posts]);
   async function handleLike(identifier, slug) {
-    console.log("like");
+    // console.log("like");
     const res = await BackendCaller.post(`/posts/${identifier}/${slug}/like`);
-    console.log(res);
+    // console.log(res);
   }
   async function handleDislike(identifier, slug) {
-    console.log("dislike");
+    // console.log("dislike");
     const res = await BackendCaller.post(
       `/posts/${identifier}/${slug}/dislike`
     );
-    console.log(res);
+    // console.log(res);
   }
   return (
     <>
