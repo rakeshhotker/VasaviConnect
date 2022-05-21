@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BackendCaller from "../Api/BackendCaller";
+import Comments from "./Comments";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
@@ -8,7 +9,7 @@ function Feed() {
   const [sub, setSub] = useState("");
   const [like, setLike] = useState(0);
   const [dislike, setDislike] = useState(0);
-  const [id, setID] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -131,9 +132,10 @@ function Feed() {
                 </div>
                 <div className="font-bold">{post.slug}</div>
                 <div className="w-32 py-1 mr-4 leading-5 hollow blue button">
-                  comments
+                  <button>Comments</button>
                 </div>
               </div>
+              <Comments identifier={post.identifier} slug={post.slug} />
             </div>
           );
         })}
