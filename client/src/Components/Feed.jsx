@@ -8,6 +8,7 @@ function Feed() {
   const [sub, setSub] = useState("");
   const [like, setLike] = useState(0);
   const [dislike, setDislike] = useState(0);
+  const [id, setID] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -41,8 +42,8 @@ function Feed() {
   }, [post, like, dislike]);
   async function handleLike(identifier, slug) {
     // console.log("like");
-    setLike(like + 1);
     const res = await BackendCaller.post(`/posts/${identifier}/${slug}/like`);
+    setLike(like + 1);
     // console.log(res);
   }
   async function handleDislike(identifier, slug) {

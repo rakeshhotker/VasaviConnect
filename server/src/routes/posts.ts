@@ -59,6 +59,20 @@ const commentOnPost=async(req:Request,res:Response)=>{
         return res.status(404).json({error:'Post not found'})
     }
 }
+const getPostComments=async(req:Request,res:Response)=>{
+    const {identifier,slug}=req.params;
+    try {
+        const post=await Post.findOneOrFail({identifier,slug})
+        const comments=await Comment.find({
+            where:{post},
+            order:{createdAt:'DESC'}
+        })
+        return res.json(comments)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({error:'Something went wrong'});
+    }
+}
 const likePost=async(req:Request,res:Response)=>{
     const {identifier,slug}=req.params
     try {
@@ -88,6 +102,7 @@ router.post('/',auth,createPost)
 router.get('/',getPosts);
 router.get('/:slug/search',getPost)
 router.post('/:identifier/:slug/comments',auth,commentOnPost)
+router.get('/:identifier/:slug/comments',auth,getPostComments)
 router.post('/:identifier/:slug/like',likePost)
 router.post('/:identifier/:slug/dislike',dislikePost);
 export default router
