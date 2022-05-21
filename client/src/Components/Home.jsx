@@ -15,7 +15,7 @@ function Home() {
       <div className="flex mt-20">
         <Sidebar />
         <div className="flex flex-col items-center justify-around w-3/5 h-full pl-10 border-l-2">
-          <PostBox />
+          {/* <PostBox /> */}
           <div className="w-full py-3">
             <Feed />
           </div>

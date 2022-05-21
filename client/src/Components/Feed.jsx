@@ -3,6 +3,29 @@ import BackendCaller from "../Api/BackendCaller";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
+  const [post, setPost] = useState("");
+  const [title, setTitle] = useState("");
+  const [sub, setSub] = useState("");
+  const [like, setLike] = useState(0);
+  const [dislike, setDislike] = useState(0);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await BackendCaller.post(
+        "/posts",
+        {
+          title,
+          body: post,
+          sub,
+        },
+        { withCredentials: true }
+      );
+      setPost("");
+      setTitle("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -15,14 +38,16 @@ function Feed() {
       // console.log("posts", posts);
     };
     fetchData();
-  }, [posts]);
+  }, [post, like, dislike]);
   async function handleLike(identifier, slug) {
     // console.log("like");
+    setLike(like + 1);
     const res = await BackendCaller.post(`/posts/${identifier}/${slug}/like`);
     // console.log(res);
   }
   async function handleDislike(identifier, slug) {
     // console.log("dislike");
+    setDislike(dislike + 1);
     const res = await BackendCaller.post(
       `/posts/${identifier}/${slug}/dislike`
     );
@@ -30,6 +55,46 @@ function Feed() {
   }
   return (
     <>
+      <div className="w-full h-full pt-1 mr-10 bg-black border rounded-3xl">
+        <form className="flex flex-col justify-center">
+          <label>Title:</label>
+          <input
+            type="text"
+            placeholder="enter the title of the post"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className=" w-full ml-5 text-center outline-none text-2xl bg-black border-0 h-35 text-[#fff] mr-4"
+          />
+          <div className="flex w-full h-40 pl-5 rounded-3xl">
+            <textarea
+              value={post}
+              placeholder="What's on your mind!"
+              onChange={(e) => setPost(e.target.value)}
+              className=" w-full ml-5 text-center outline-none text-2xl bg-black border-0 h-35 text-[#fff] mr-4"
+            />
+          </div>
+          <label>Category</label>
+          <select
+            className=" w-full ml-5 text-center outline-none text-2xl bg-black border-0 h-35 text-[#fff] mr-4"
+            onChange={(e) => setSub(e.target.value)}
+          >
+            <option value="Home">Home</option>
+            <option value="Placement">Placement</option>
+            <option value="Competitive Programming">
+              Competitive Programming
+            </option>
+            <option value="Sports">Sports</option>
+            <option value="App Development">App Development</option>
+            <option value="celebration">celebration</option>
+          </select>
+          <button
+            className="w-20 h-10 mt-5 ml-auto bg-purple-600 border-0 rounded-3xl"
+            onClick={handleSubmit}
+          >
+            post
+          </button>
+        </form>
+      </div>
       {posts &&
         posts.map((post) => {
           return (

@@ -7,7 +7,6 @@ function PostBox() {
   const [sub, setSub] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(post, title, sub);
     try {
       await BackendCaller.post(
         "/posts",
@@ -18,6 +17,8 @@ function PostBox() {
         },
         { withCredentials: true }
       );
+      setPost("");
+      setTitle("");
     } catch (error) {
       console.log(error);
     }
