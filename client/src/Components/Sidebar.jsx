@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import BackendCaller from "../Api/BackendCaller";
 import SidebarOption from "./SidebarOption";
-function Sidebar() {
+function Sidebar({ categories, setCategories }) {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await BackendCaller.get("/subs", {
+          withCredentials: true,
+        });
+        setCategories(res.data);
+        console.log(categories);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <>
       <div className="flex-col justify-evenly w-4/20 h-full px-5 text-[#fff]">
-        <SidebarOption active text="Home" />
-        <SidebarOption text="Placement"/>
-        <SidebarOption text="Competitive Programming" />
-        <SidebarOption text="Sports" />
-        <SidebarOption text="App Development" />
-        <SidebarOption text="Web Development" />
+        {categories &&
+          categories.map((category) => {
+            return <SidebarOption text={category.name} />;
+          })}
       </div>
     </>
   );

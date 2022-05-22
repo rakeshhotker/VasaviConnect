@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import BackendCaller from "../Api/BackendCaller";
 import Comments from "./Comments";
 
-function Feed() {
+function Feed({ categories }) {
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState("");
   const [title, setTitle] = useState("");
   const [sub, setSub] = useState("");
   const [like, setLike] = useState(0);
   const [dislike, setDislike] = useState(0);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -55,6 +54,7 @@ function Feed() {
     );
     // console.log(res);
   }
+  console.log("categories", categories);
   return (
     <>
       <div className="w-full h-full pt-1 mr-10 bg-black border rounded-3xl">
@@ -80,14 +80,11 @@ function Feed() {
             className=" w-full ml-5 text-center outline-none text-2xl bg-black border-0 h-35 text-[#fff] mr-4"
             onChange={(e) => setSub(e.target.value)}
           >
-            <option value="Home">Home</option>
-            <option value="Placement">Placement</option>
-            <option value="Competitive Programming">
-              Competitive Programming
-            </option>
-            <option value="Sports">Sports</option>
-            <option value="App Development">App Development</option>
-            <option value="celebration">celebration</option>
+            {categories &&
+              categories.map((category) => {
+                <option value={category.name}>{category.name}</option>;
+                console.log(category.name);
+              })}
           </select>
           <button
             className="w-20 h-10 mt-5 ml-auto bg-purple-600 border-0 rounded-3xl"

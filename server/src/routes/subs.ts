@@ -33,7 +33,17 @@ const createSub=async(req:Request,res:Response)=>{
         return res.status(500).json({error:'Something went wrong'})
     }
 }
-
+const getAllSubs=async(_:Request,res:Response)=>{
+    try {
+        const data=await Sub.find({
+            order:{createdAt:'DESC'}
+        })
+        return res.status(200).json(data)
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 const router=Router()
 router.post('/',auth,createSub)
+router.get('/',auth,getAllSubs)
 export default router

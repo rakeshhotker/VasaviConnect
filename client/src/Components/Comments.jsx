@@ -34,6 +34,7 @@ function Comments({ identifier, slug }) {
       }
     );
     setgetComments(!getComments);
+    setComment("");
   }
   return (
     <>
