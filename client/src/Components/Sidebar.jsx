@@ -16,6 +16,7 @@ function Sidebar({ categories, setCategories }) {
     };
     fetchData();
   }, []);
+  // console.log("burh", categories);
   return (
     <>
       <div className="flex-col justify-evenly w-4/20 h-full px-5 text-[#fff]">

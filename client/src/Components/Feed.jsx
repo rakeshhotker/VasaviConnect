@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BackendCaller from "../Api/BackendCaller";
 import Comments from "./Comments";
-
 function Feed({ categories }) {
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState("");
@@ -54,7 +53,7 @@ function Feed({ categories }) {
     );
     // console.log(res);
   }
-  console.log("categories", categories);
+  // console.log("categories", categories);
   return (
     <>
       <div className="w-full h-full pt-1 mr-10 bg-black border rounded-3xl">
@@ -80,10 +79,10 @@ function Feed({ categories }) {
             className=" w-full ml-5 text-center outline-none text-2xl bg-black border-0 h-35 text-[#fff] mr-4"
             onChange={(e) => setSub(e.target.value)}
           >
+            <option value=""></option>
             {categories &&
               categories.map((category) => {
-                <option value={category.name}>{category.name}</option>;
-                console.log(category.name);
+                return <option value={category.name}>{category.name}</option>;
               })}
           </select>
           <button

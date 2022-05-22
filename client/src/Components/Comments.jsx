@@ -14,9 +14,9 @@ function Comments({ identifier, slug }) {
             withCredentials: true,
           }
         );
-        console.log(res.data);
+        // console.log(res.data);
         setComments(res.data);
-        console.log("comments", comments);
+        // console.log("comments", comments);
       } catch (error) {
         console.log(error.message);
       }
