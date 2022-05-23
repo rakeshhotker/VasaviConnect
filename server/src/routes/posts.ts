@@ -42,6 +42,20 @@ const getPost=async(req:Request,res:Response)=>{
         return res.status(404).json({error:'Post not found'})
     }
 }
+const getPostforSub=async(req:Request,res:Response)=>{
+    const {name}=req.params;
+    try {
+        const sub=await Sub.findOneOrFail({name})
+        const data=await Post.find({
+            where:{sub},
+            order:{createdAt:'DESC'}
+        })
+        return res.status(200).json(data)
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json({error:error.message})
+    }
+}
 const commentOnPost=async(req:Request,res:Response)=>{
     const {identifier,slug}=req.params
     const body=req.body.body
@@ -101,6 +115,7 @@ const router=Router()
 router.post('/',auth,createPost)
 router.get('/',getPosts);
 router.get('/:slug/search',getPost)
+router.get('/:name/posts',getPostforSub)
 router.post('/:identifier/:slug/comments',auth,commentOnPost)
 router.get('/:identifier/:slug/comments',auth,getPostComments)
 router.post('/:identifier/:slug/like',likePost)

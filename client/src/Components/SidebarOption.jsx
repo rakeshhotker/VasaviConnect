@@ -1,10 +1,12 @@
 import React from "react";
 // import "./sidebaroption.css";
-function SidebarOption({ active, text }) {
+function SidebarOption({ active, text, setCategory }) {
   return (
     <>
-      <div className="w-96 px-py text-xl font-bold mb-3 hover:bg-blue-600">
-        <h3>{text}</h3>
+      <div className="mb-3 text-xl font-bold cursor-pointer w-96 px-py hover:bg-blue-600 ">
+        <button onClick={(e) => setCategory(e.target.value)} value={text}>
+          {text}
+        </button>
       </div>
     </>
   );

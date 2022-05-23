@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BackendCaller from "../Api/BackendCaller";
 import SidebarOption from "./SidebarOption";
-function Sidebar({ categories, setCategories }) {
+function Sidebar({ categories, setCategories, category, setCategory }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,12 +17,20 @@ function Sidebar({ categories, setCategories }) {
     fetchData();
   }, []);
   // console.log("burh", categories);
+
   return (
     <>
       <div className="flex-col justify-evenly w-4/20 h-full px-5 text-[#fff]">
+        <div className="mb-3 text-xl font-bold cursor-pointer w-96 px-py hover:bg-blue-600 ">
+          <button onClick={(e) => setCategory(e.target.value)} value="Home">
+            Home
+          </button>
+        </div>
         {categories &&
           categories.map((category) => {
-            return <SidebarOption text={category.name} />;
+            return (
+              <SidebarOption text={category.name} setCategory={setCategory} />
+            );
           })}
       </div>
     </>
