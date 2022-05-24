@@ -8,6 +8,7 @@ function Feed({ categories }) {
   const [sub, setSub] = useState("");
   const [like, setLike] = useState(0);
   const [dislike, setDislike] = useState(0);
+  const [comments, setComments] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -41,45 +42,42 @@ function Feed({ categories }) {
   }, [post, like, dislike]);
   async function handleLike(identifier, slug) {
     // console.log("like");
-    const res = await BackendCaller.post(`/posts/${identifier}/${slug}/like`);
+    await BackendCaller.post(`/posts/${identifier}/${slug}/like`);
     setLike(like + 1);
     // console.log(res);
   }
   async function handleDislike(identifier, slug) {
     // console.log("dislike");
     setDislike(dislike + 1);
-    const res = await BackendCaller.post(
-      `/posts/${identifier}/${slug}/dislike`
-    );
+    await BackendCaller.post(`/posts/${identifier}/${slug}/dislike`);
     // console.log(res);
   }
   // console.log("categories", categories);
   return (
     <>
-      <div className="w-full h-full pt-1 mr-10 bg-black border rounded-3xl">
+      <div className="w-full h-full pt-1 bg-black border">
         <form className="flex flex-col justify-center">
-          <label>Title:</label>
           <input
             type="text"
-            placeholder="enter the title of the post"
+            placeholder="Enter the title of the post"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className=" w-full ml-5 text-center outline-none text-2xl bg-black border-0 h-35 text-[#fff] mr-4"
+            className=" w-initial text-center outline-none text-2xl bg-black border-0 h-35 text-[#fff]"
           />
-          <div className="flex w-full h-40 pl-5 rounded-3xl">
+          <div className="flex w-full h-40 pl-5 mt-2 rounded-3xl">
             <textarea
               value={post}
               placeholder="What's on your mind!"
               onChange={(e) => setPost(e.target.value)}
-              className=" w-full ml-5 text-center outline-none text-2xl bg-black border-0 h-35 text-[#fff] mr-4"
+              className=" w-full ml-5 outline-none text-2xl bg-black border-0 h-35 text-[#fff] text-center"
             />
           </div>
           <label>Category</label>
           <select
-            className=" w-full ml-5 text-center outline-none text-2xl bg-black border-0 h-35 text-[#fff] mr-4"
+            className="w-initial text-center outline-none text-2xl bg-black border-0 h-35 text-[#fff]"
             onChange={(e) => setSub(e.target.value)}
           >
-            <option value=""></option>
+            <option value="">select a category</option>
             {categories &&
               categories.map((category) => {
                 return <option value={category.name}>{category.name}</option>;
@@ -128,10 +126,20 @@ function Feed({ categories }) {
                 </div>
                 <div className="font-bold">{post.slug}</div>
                 <div className="w-32 py-1 mr-4 leading-5 hollow blue button">
-                  <button>Comments</button>
+                  <button
+                    onClick={(e) =>
+                      comments === post.identifier
+                        ? setComments("")
+                        : setComments(post.identifier)
+                    }
+                  >
+                    Comments
+                  </button>
                 </div>
               </div>
-              <Comments identifier={post.identifier} slug={post.slug} />
+              {comments === post.identifier && (
+                <Comments identifier={post.identifier} slug={post.slug} />
+              )}
             </div>
           );
         })}

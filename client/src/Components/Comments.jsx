@@ -53,6 +53,7 @@ function Comments({ identifier, slug }) {
         comment
       </button>
       <div className="w-full h-full">
+        {comments.length === 0 && <h3>No comments to display</h3>}
         {comments &&
           comments.map((comment) => {
             return (
