@@ -6,6 +6,8 @@ function Navbar({
   isLoggedIn,
   authenticate,
   setisAuthenticate,
+  profile,
+  setProfile,
 }) {
   const [slug, setQuery] = useState("");
   const [searchResult, setSearchResult] = useState({});
@@ -64,9 +66,21 @@ function Navbar({
             >
               logout
             </button>
-            <button className="w-32 py-1 mr-4 leading-5 rounded-full blue button">
-              MyProfile
-            </button>
+            {profile ? (
+              <button
+                onClick={(e) => setProfile(!profile)}
+                className="w-32 py-1 mr-4 leading-5 rounded-full blue button"
+              >
+                HOME
+              </button>
+            ) : (
+              <button
+                onClick={(e) => setProfile(!profile)}
+                className="w-32 py-1 mr-4 leading-5 rounded-full blue button"
+              >
+                MyProfile
+              </button>
+            )}
           </div>
         </div>
       )}

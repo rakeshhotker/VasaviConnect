@@ -31,7 +31,7 @@ function Feed({ categories }) {
     const fetchData = async () => {
       try {
         const data = await BackendCaller.get("/posts");
-        // console.log(data.data);
+        console.log(data.data);
         setPosts(data.data);
       } catch (error) {
         console.log(error.message);

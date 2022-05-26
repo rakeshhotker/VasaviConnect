@@ -82,6 +82,9 @@ function CustomFeed({ category }) {
             </div>
           );
         })}
+      {posts.length === 0 && (
+        <h1 className="text-[white] text-center">No Posts to Display</h1>
+      )}
     </>
   );
 }

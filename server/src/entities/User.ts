@@ -26,6 +26,12 @@ export default class User extends Entity{
     @Column()
     password:string
 
+    @Column({nullable:true,type:'text'})
+    @Length(10,255)
+    About:string
+
+    @Column({nullable:true,type:'text'})
+    AreasofInterest:[]
     @OneToMany(()=>Post,post=>post.user)
     posts:Post[]
 

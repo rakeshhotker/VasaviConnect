@@ -79,9 +79,21 @@ const logout=async (_:Request,res:Response)=>{
     }))
     return res.status(200).send({success:true});
 }
+const profile=async(req:Request,res:Response)=>{
+    const {username}=req.params;
+    try {
+        const data=await User.findOneOrFail({username})
+        return res.status(200).json(data)
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json({error:'Something went wrong'})
+    }
+}
 const router=Router()
 router.post('/register',register);
 router.post('/login',login);
 router.get('/me',auth,me)
 router.get('/logout',auth,logout);
+router.get('/')
+router.get('/:username/:profile',auth,profile)
 export default router;
