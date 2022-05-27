@@ -27,9 +27,13 @@ function Sidebar({ categories, setCategories, category, setCategory }) {
           </button>
         </div>
         {categories &&
-          categories.map((category) => {
+          categories.map((category, index) => {
             return (
-              <SidebarOption text={category.name} setCategory={setCategory} />
+              <SidebarOption
+                key={index}
+                text={category.name}
+                setCategory={setCategory}
+              />
             );
           })}
       </div>

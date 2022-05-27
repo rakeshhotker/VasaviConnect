@@ -44,9 +44,9 @@ function Login({ wantToLogin, stateChanger, isLoggedIn, stateChanger1 }) {
   }
   return (
     <>
-      <div class="login">
-        <div class="form">
-          <form class="login-form">
+      <div className="login">
+        <div className="form">
+          <form className="login-form">
             <input
               className="text-[#fff]"
               type="text"
@@ -105,9 +105,9 @@ function SignUp({ wantToLogin, stateChanger }) {
   }
   return (
     <>
-      <div class="login">
-        <div class="form">
-          <form class="login-form" action="index.html">
+      <div className="login">
+        <div className="form">
+          <form className="login-form">
             <input
               className="text-[#fff]"
               type="text"

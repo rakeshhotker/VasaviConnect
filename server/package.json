@@ -30,7 +30,8 @@
       "jsonwebtoken": "^8.5.1",
       "pg": "^8.4.0",
       "reflect-metadata": "^0.1.13",
-      "typeorm": "0.2.45"
+      "typeorm": "0.2.45",
+      "typeorm-text-search": "^1.1.2"
    },
    "scripts": {
       "start": "ts-node src/server.ts",

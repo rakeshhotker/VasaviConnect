@@ -1,4 +1,6 @@
 import { Router,Request, Response } from "express"
+import { textSearchByFields } from "typeorm-text-search";
+import { getRepository } from "typeorm";
 import Comment from "../entities/Comment";
 import Post from "../entities/Post";
 import Sub from "../entities/Sub";
@@ -31,12 +33,14 @@ const getPosts=async (_:Request,res:Response)=>{
         return res.status(500).json({error:'Something went wrong'})
     }
 }
-const getPost=async(req:Request,res:Response)=>{
-    const {slug}=req.params;
-    console.log(slug)
+const getPostSearch=async(req:Request,res:Response)=>{
+    const {text}=req.params;
+    console.log(text)
     try {
-        const post=await Post.findOneOrFail({slug},{relations:['sub']})
-        return res.json(post)
+        const queryBuilder=getRepository(Post).createQueryBuilder("post");
+        textSearchByFields<Post>(queryBuilder,text,['body','title','username'])
+        const posts=await queryBuilder.getMany()
+        return res.status(200).json(posts)
     } catch (error) {
         console.log(error)
         return res.status(404).json({error:'Post not found'})
@@ -114,7 +118,7 @@ const dislikePost=async(req:Request,res:Response)=>{
 const router=Router()
 router.post('/',auth,createPost)
 router.get('/',getPosts);
-router.get('/:slug/search',getPost)
+router.get('/:text/search',getPostSearch)
 router.get('/:name/posts',getPostforSub)
 router.post('/:identifier/:slug/comments',auth,commentOnPost)
 router.get('/:identifier/:slug/comments',auth,getPostComments)
