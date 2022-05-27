@@ -12,7 +12,7 @@ function Feed({ categories }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await BackendCaller.post(
+      const res = await BackendCaller.post(
         "/posts",
         {
           title,
@@ -21,10 +21,12 @@ function Feed({ categories }) {
         },
         { withCredentials: true }
       );
+
       setPost("");
       setTitle("");
     } catch (error) {
       console.log(error);
+      setPost(error.response.data);
     }
   };
   useEffect(() => {
