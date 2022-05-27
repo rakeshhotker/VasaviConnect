@@ -7,6 +7,7 @@ function App() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [authenticate, setisAuthenticate] = useState(false);
   const [profile, setProfile] = useState(false);
+  const [user, setUser] = useState("");
   return (
     <>
       <Navbar
@@ -18,10 +19,15 @@ function App() {
         setProfile={setProfile}
       />
       {!isLoggedIn && authenticate && (
-        <Auth setisLoggedIn={setisLoggedIn} isLoggedIn={isLoggedIn} />
+        <Auth
+          setisLoggedIn={setisLoggedIn}
+          isLoggedIn={isLoggedIn}
+          user={user}
+          setUser={setUser}
+        />
       )}
       {!profile && isLoggedIn && <Home />}
-      {profile && isLoggedIn && <Profile />}
+      {profile && isLoggedIn && <Profile user={user} />}
     </>
   );
 }

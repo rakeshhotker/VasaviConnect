@@ -11,6 +11,8 @@ function Auth({ isLoggedIn, setisLoggedIn, user, setUser }) {
           wantToLogin={wantToLogin}
           isLoggedIn={isLoggedIn}
           stateChanger1={setisLoggedIn}
+          user={user}
+          setUser={setUser}
         />
       ) : (
         <SignUp stateChanger={setwantToLogin} wantToLogin={wantToLogin} />
@@ -18,7 +20,14 @@ function Auth({ isLoggedIn, setisLoggedIn, user, setUser }) {
     </>
   );
 }
-function Login({ wantToLogin, stateChanger, isLoggedIn, stateChanger1 }) {
+function Login({
+  wantToLogin,
+  stateChanger,
+  isLoggedIn,
+  stateChanger1,
+  user,
+  setUser,
+}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   function changeHandler(e) {
@@ -37,6 +46,7 @@ function Login({ wantToLogin, stateChanger, isLoggedIn, stateChanger1 }) {
         { withCredentials: true }
       );
       console.log(res.data);
+      setUser(username);
       stateChanger1(!isLoggedIn);
     } catch (error) {
       console.log(error);

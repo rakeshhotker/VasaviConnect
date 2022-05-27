@@ -5,7 +5,7 @@ import Comment from "../entities/Comment";
 import Post from "../entities/Post";
 import Sub from "../entities/Sub";
 import auth from '../middleware/auth'
-
+import User from "../entities/User";
 const createPost = async (req:Request,res:Response) => {
     var Sentiment=require('sentiment');
     var sentiment=new Sentiment();
@@ -124,6 +124,20 @@ const dislikePost=async(req:Request,res:Response)=>{
         return res.status(404).json({error:'Post not found'})
     }
 }
+const getpostsforUser=async(req:Request,res:Response)=>{
+    const {username}=req.params;
+    try {
+        const user=User.findOneOrFail({username})
+        const data=await Post.find({
+            where:{user},
+            order:{createdAt:'DESC'}
+        })
+        return res.status(200).json(data)
+    } catch (error) {
+        console.log(error);
+        return res.status(404).json({error:'Posts not found'})
+    }
+}
 const router=Router()
 router.post('/',auth,createPost)
 router.get('/',getPosts);
@@ -133,4 +147,5 @@ router.post('/:identifier/:slug/comments',auth,commentOnPost)
 router.get('/:identifier/:slug/comments',auth,getPostComments)
 router.post('/:identifier/:slug/like',likePost)
 router.post('/:identifier/:slug/dislike',dislikePost);
+router.get('/:username/',getpostsforUser)
 export default router
