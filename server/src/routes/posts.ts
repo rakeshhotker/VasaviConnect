@@ -132,7 +132,8 @@ const dislikePost=async(req:Request,res:Response)=>{
 const getpostsforUser=async(req:Request,res:Response)=>{
     const {username}=req.params;
     try {
-        const user=User.findOneOrFail({username})
+        const user=await User.findOneOrFail({username})
+        console.log(user)
         const data=await Post.find({
             where:{user},
             order:{createdAt:'DESC'}

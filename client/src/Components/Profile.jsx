@@ -32,6 +32,7 @@ function Profile({ user }) {
   useEffect(() => {
     const fetchData = async () => {
       var username = user;
+      console.log(user);
       try {
         const data = await BackendCaller.get(`/posts/${username}/`);
         console.log(data.data);
@@ -42,7 +43,7 @@ function Profile({ user }) {
       // console.log("posts", posts);
     };
     fetchData();
-  }, [like, dislike]);
+  }, [user, like, dislike]);
   async function handleLike(identifier, slug) {
     if (like === identifier) {
       await BackendCaller.post(`/posts/${identifier}/${slug}/like1`);
@@ -77,13 +78,13 @@ function Profile({ user }) {
   }
   return (
     <>
-      <div className="w-full mt-20 text-[white] flex ">
-        <div className="w-2/6 px-5">
-          <h1>Create a Category</h1>
-          <div>
-            <h1>Name:</h1>
+      <div className="w-full mt-20 text-[white] flex h-full">
+        <div className="flex flex-col justify-between w-2/6 px-5 h-96">
+          <h1 className="w-full">Create a Category</h1>
+          <div className="flex justify-around w-full h-8 align-baseline">
+            <span>Name:</span>
             <input
-              className="bg-black "
+              className="bg-black border"
               type="text"
               value={name}
               placeholder="Enter Name of the Category"
@@ -92,10 +93,10 @@ function Profile({ user }) {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div>
+          <div className="flex justify-around">
             <h1>Title:</h1>
             <input
-              className="text-[white] bg-black"
+              className="text-[white] bg-black border"
               type="text"
               value={title}
               placeholder="Enter Title of the Category"
@@ -104,10 +105,10 @@ function Profile({ user }) {
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
-          <div>
+          <div className="flex justify-around">
             <h1>Description:</h1>
             <input
-              className="text-[white] bg-black"
+              className="text-[white] bg-black border"
               type="text"
               value={description}
               placeholder="Enter Description of the Category"
@@ -207,6 +208,9 @@ function Profile({ user }) {
                   </div>
                 );
               })}
+            {posts.length === 0 && (
+              <h1 className="text-[white] text-center">No Posts to Display</h1>
+            )}
           </div>
         </div>
       </div>
