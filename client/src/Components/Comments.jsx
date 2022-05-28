@@ -24,17 +24,22 @@ function Comments({ identifier, slug }) {
     fetchData();
   }, [getComments]);
   async function handleCommenting() {
-    await BackendCaller.post(
-      `/posts/${identifier}/${slug}/comments`,
-      {
-        body: comment,
-      },
-      {
-        withCredentials: true,
-      }
-    );
-    setgetComments(!getComments);
-    setComment("");
+    try {
+      await BackendCaller.post(
+        `/posts/${identifier}/${slug}/comments`,
+        {
+          body: comment,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      setgetComments(!getComments);
+      setComment("");
+    } catch (error) {
+      console.log(error);
+      setComment(error.response.data);
+    }
   }
   return (
     <>

@@ -6,8 +6,8 @@ function Feed({ categories }) {
   const [post, setPost] = useState("");
   const [title, setTitle] = useState("");
   const [sub, setSub] = useState("");
-  const [like, setLike] = useState(0);
-  const [dislike, setDislike] = useState(0);
+  const [like, setLike] = useState("");
+  const [dislike, setDislike] = useState("");
   const [comments, setComments] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,15 +43,35 @@ function Feed({ categories }) {
     fetchData();
   }, [post, like, dislike]);
   async function handleLike(identifier, slug) {
+    if (like === identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/like1`);
+      setLike("");
+    }
     // console.log("like");
-    await BackendCaller.post(`/posts/${identifier}/${slug}/like`);
-    setLike(like + 1);
+    if (dislike === identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/dislike1`);
+      setDislike("");
+    }
+    if (like === "" || like != identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/like`);
+      setLike(identifier);
+    }
     // console.log(res);
   }
   async function handleDislike(identifier, slug) {
     // console.log("dislike");
-    setDislike(dislike + 1);
-    await BackendCaller.post(`/posts/${identifier}/${slug}/dislike`);
+    if (like === identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/like1`);
+      setLike("");
+    }
+    if (dislike === identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/dislike1`);
+      setDislike("");
+    }
+    if (dislike === "" || dislike != identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/dislike`);
+      setDislike(identifier);
+    }
     // console.log(res);
   }
   // console.log("categories", categories);
@@ -98,16 +118,25 @@ function Feed({ categories }) {
           return (
             <div className="w-full pt-4 text-[#fff] border-b py-8 my-2 rounded-md">
               <div className="flex justify-between">
-                <h3 className="font-bold">{post.title}</h3>
-                <span className="font-bold">
-                  Posted by:&nbsp;{post.username}
-                </span>
-                <span className="font-bold">Category:&nbsp;{post.subName}</span>
+                <h3 className="font-bold uppercase">
+                  <span className="text-blue-500">Title:</span>&nbsp;
+                  {post.title}
+                </h3>
               </div>
-              <div className="">
+              <div className="flex justify-between">
+                <span className="font-bold">
+                  <span className="text-blue-500">Posted by</span>:&nbsp;
+                  {post.username}
+                </span>
+                <span className="font-bold uppercase">
+                  <span className="text-blue-500">Category</span>:&nbsp;
+                  {post.subname}
+                </span>
+              </div>
+              <div className="mt-2">
                 <p>{post.body}</p>
               </div>
-              <div className="flex justify-between mt-2">
+              <div className="flex justify-between mt-5">
                 <div className="flex justify-between w-40">
                   <div className="w-20 py-1 mr-4 leading-5 rounded-full blue button">
                     <button
@@ -126,7 +155,7 @@ function Feed({ categories }) {
                     </button>
                   </div>
                 </div>
-                <div className="font-bold">{post.slug}</div>
+                {/* <div className="font-bold">{post.slug}</div> */}
                 <div className="w-32 py-1 mr-4 leading-5 hollow blue button">
                   <button
                     onClick={(e) =>
@@ -139,9 +168,11 @@ function Feed({ categories }) {
                   </button>
                 </div>
               </div>
-              {comments === post.identifier && (
-                <Comments identifier={post.identifier} slug={post.slug} />
-              )}
+              <div className="mt-4">
+                {comments === post.identifier && (
+                  <Comments identifier={post.identifier} slug={post.slug} />
+                )}
+              </div>
             </div>
           );
         })}

@@ -25,7 +25,7 @@ export default class Post extends Entity{
     body:string
 
     @Column()
-    subName:string
+    subname:string
 
     @Column()
     username:string 
@@ -39,7 +39,7 @@ export default class Post extends Entity{
     user:User
 
     @ManyToOne(()=>Sub,(sub)=>sub.posts)
-    @JoinColumn({name:'subName',referencedColumnName:'name'})
+    @JoinColumn({name:'subname',referencedColumnName:'name'})
     sub:Sub
 
     @OneToMany(()=>Comment,comment=>comment.post)

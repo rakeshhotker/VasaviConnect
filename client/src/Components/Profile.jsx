@@ -44,15 +44,35 @@ function Profile({ user }) {
     fetchData();
   }, [like, dislike]);
   async function handleLike(identifier, slug) {
+    if (like === identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/like1`);
+      setLike("");
+    }
     // console.log("like");
-    await BackendCaller.post(`/posts/${identifier}/${slug}/like`);
-    setLike(like + 1);
+    if (dislike === identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/dislike1`);
+      setDislike("");
+    }
+    if (like === "" || like != identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/like`);
+      setLike(identifier);
+    }
     // console.log(res);
   }
   async function handleDislike(identifier, slug) {
     // console.log("dislike");
-    setDislike(dislike + 1);
-    await BackendCaller.post(`/posts/${identifier}/${slug}/dislike`);
+    if (like === identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/like1`);
+      setLike("");
+    }
+    if (dislike === identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/dislike1`);
+      setDislike("");
+    }
+    if (dislike === "" || dislike != identifier) {
+      await BackendCaller.post(`/posts/${identifier}/${slug}/dislike`);
+      setDislike(identifier);
+    }
     // console.log(res);
   }
   return (
@@ -125,7 +145,7 @@ function Profile({ user }) {
                         Posted by:&nbsp;{post.username}
                       </span>
                       <span className="font-bold">
-                        Category:&nbsp;{post.subName}
+                        Category:&nbsp;{post.subname}
                       </span>
                     </div>
                     <div className="">

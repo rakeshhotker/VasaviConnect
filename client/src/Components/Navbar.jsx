@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../Assets/Logo.jpeg";
 import BackendCaller from "../Api/BackendCaller";
-import SearchResult from "./SearchResult";
 function Navbar({
   setisLoggedIn,
   isLoggedIn,

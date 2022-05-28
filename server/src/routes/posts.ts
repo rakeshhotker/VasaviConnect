@@ -6,9 +6,9 @@ import Post from "../entities/Post";
 import Sub from "../entities/Sub";
 import auth from '../middleware/auth'
 import User from "../entities/User";
+var Sentiment=require('sentiment');
+var sentiment=new Sentiment();
 const createPost = async (req:Request,res:Response) => {
-    var Sentiment=require('sentiment');
-    var sentiment=new Sentiment();
     const {title,body,sub} = req.body;
     const likes=0;
     const dislikes=0;
@@ -47,7 +47,7 @@ const getPostSearch=async(req:Request,res:Response)=>{
     console.log(text)
     try {
         const queryBuilder=getRepository(Post).createQueryBuilder("post");
-        textSearchByFields<Post>(queryBuilder,text,['body','title','username'])
+        textSearchByFields<Post>(queryBuilder,text,['body','title','username','subname'])
         const posts=await queryBuilder.getMany()
         return res.status(200).json(posts)
     } catch (error) {
@@ -73,6 +73,11 @@ const commentOnPost=async(req:Request,res:Response)=>{
     const {identifier,slug}=req.params
     const body=req.body.body
     try {
+        var result=sentiment.analyze(body);
+        if(result.score<0)
+        {
+            return res.status(418).json("YOUR COMMENT DOESN'T OBEY OUR GUIDELINES")
+        }
         const post=await Post.findOneOrFail({identifier,slug})
         const comment=new Comment({
             body,
@@ -138,8 +143,34 @@ const getpostsforUser=async(req:Request,res:Response)=>{
         return res.status(404).json({error:'Posts not found'})
     }
 }
+const likePost1=async(req:Request,res:Response)=>{
+    const {identifier,slug}=req.params
+    try {
+        const post=await Post.findOneOrFail({identifier,slug})
+        post.likes--;
+        await Post.save(post)
+        return res.json(post)
+    } catch (error) {
+        console.log(error);
+        return res.status(404).json({error:'Post not found'})
+    }
+}
+const dislikePost1=async(req:Request,res:Response)=>{
+    const {identifier,slug}=req.params
+    try {
+        const post=await Post.findOneOrFail({identifier,slug})
+        post.dislikes--;
+        await Post.save(post)
+        return res.json(post)
+    } catch (error) {
+        console.log(error);
+        return res.status(404).json({error:'Post not found'})
+    }
+}
 const router=Router()
 router.post('/',auth,createPost)
+router.post('/:identifier/:slug/like1',likePost1)
+router.post('/:identifier/:slug/dislike1',dislikePost1);
 router.get('/',getPosts);
 router.get('/:text/search',getPostSearch)
 router.get('/:name/posts',getPostforSub)
