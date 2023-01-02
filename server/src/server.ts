@@ -24,7 +24,7 @@ app.use('/api/auth',authRoutes)
 app.use('/api/posts',postRoutes)
 app.use('/api/subs',subRoutes)
 app.get('/',(_,res)=>{
-    res.send("Hello World");
+    res.send("Hello Wordd");
 })
 
 app.listen(4000,async()=>{
