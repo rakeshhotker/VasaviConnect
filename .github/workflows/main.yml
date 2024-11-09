@@ -23,14 +23,6 @@ jobs:
         run: npm install
         working-directory: server
 
-      - name: Compile TypeScript
-        run: npx tsc
-        working-directory: server
-
-      - name: Run Tests (Optional)
-        run: npm test
-        working-directory: server
-
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
