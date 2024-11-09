@@ -21,18 +21,18 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./VasaviConnect/server
+        working-directory: server
 
       - name: Compile TypeScript
         run: npx tsc
-        working-directory: ./VasaviConnect/server
+        working-directory: server
 
       - name: Run Tests (Optional)
         run: npm test
-        working-directory: ./VasaviConnect/server
+        working-directory: server
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: node-build
-          path: ./VasaviConnect/server/dist/
+          path: server/dist/
