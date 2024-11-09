@@ -26,4 +26,4 @@ jobs:
         run: |
           npm install
           npx webpack
-        working-directory: VasaviConnect/server
+        working-directory: .*/server
