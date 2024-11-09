@@ -26,4 +26,4 @@ jobs:
         run: |
           npm install
           npx webpack
-        working-directory: .*/server
+        working-directory: server
